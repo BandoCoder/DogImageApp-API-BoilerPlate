@@ -4,23 +4,33 @@ function getDogImages(userInput) {
       .then(response => response.json())
       .then(responseJson =>
         displayResults(responseJson))
+        
       .catch(error => alert(`Something went wrong. NO DOGS FOR YOU.`));
 }
 
 function displayResults(responseJson) {
-    $('.results-img').replaceWith(
-        `<img src="${responseJson.message}" class="results-img">`
-      )
-    console.log(responseJson);
+    let imgClass = `<div class = 'imageClass'></div>`
+    let images = '';
+    for (let i = 0; i < responseJson.message.length; i++ ){
+      images += `<img src='${responseJson.message[i]}' class='results-img'>`
+      imgClass = `<div class = 'imageClass'>${images}</div>`
+      
+    }
+    $('.imageClass').replaceWith(imgClass);
+    $('.results').removeClass('hidden');
 }
 
 function watchForm() {
     $('form').submit(event => {
         event.preventDefault();
-        let userInput = $('#dInput').val()
-        getDogImages(userInput);
-    })
+        const userInput = $('#dInput').val()
+          getDogImages(userInput);
+        
+
+ })
 }
+
+
 $(function() {
     console.log('App loaded! Waiting for submit!');
     watchForm();
